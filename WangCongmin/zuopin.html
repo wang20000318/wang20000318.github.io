@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作品</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .subBox {
+            float: left;
+            border: 1px solid rgb(255, 201, 201);
+            padding: 5px;
+            position: relative;
+        }
+        #box .subBox img {
+            width: 400px;
+            height: auto;
+            /* height: 300px; */
+        }
+        #box .subBox::before {
+            content:"作品集";
+            display: inline-block;
+            color: white;
+            width: 0px;
+            height: 100%;
+            font-size: 40px;
+            line-height: 300px;
+            text-align: center;
+            background-color: black;
+            opacity: 0.6;
+            position: absolute;
+            left: 410px;
+            top: 0px;
+            z-index: -1;
+            -webkit-animation: all 1s ease 0s;
+            -moz-animation: all 1s ease 0s;
+            -ms-transition: all 1s ease 0s;
+            -o-transition: all 1s ease 0s;
+            transition: all 1s ease 0s;
+        }
+        #box .subBox:hover::before {
+            z-index: 99;
+            width: 410px;
+            left: 0;
+        }
+    </style>
+    <script src="js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+    <div id="box">
+        <div class="subBox"><img src="images/0-1..jpg" data-src="images/0-1.jpg"></div>
+        <div class="subBox"><img src="images/0-2..jpg" data-src="images/0-2.jpg"></div>
+        <div class="subBox"><img src="images/0-3..jpg" data-src="images/0-3.jpg"></div>
+        <div class="subBox"><img src="images/0-4..jpg" data-src="images/0-4.jpg"></div>
+        <div class="subBox"><img src="images/0-5..jpg" data-src="images/0-5.jpg"></div>
+        <div class="subBox"><img src="images/0-6..jpg" data-src="images/0-6.jpg"></div>
+        <div class="subBox"><img src="images/0-7..jpg" data-src="images/0-7.jpg"></div>
+        <div class="subBox"><img src="images/0-8..jpg" data-src="images/0-8.jpg"></div>
+        <div class="subBox"><img src="images/0-9..jpg" data-src="images/0-9.jpg"></div>
+        <div class="subBox"><img src="images/1-0..jpg" data-src="images/1-0.jpg"></div>
+        <div class="subBox"><img src="images/1-1..jpg" data-src="images/1-1.jpg"></div>
+        <div class="subBox"><img src="images/1-2..jpg" data-src="images/1-2.jpg"></div>
+        <div class="subBox"><img src="images/1-3..jpg" data-src="images/1-3.jpg"></div>
+        <div class="subBox"><img src="images/1-4..jpg" data-src="images/1-4.jpg"></div>
+        <div class="subBox"><img src="images/1-5..jpg" data-src="images/1-5.jpg"></div>
+        <div class="subBox"><img src="images/1-6..jpg" data-src="images/1-6.jpg"></div>
+        <div class="subBox"><img src="images/1-7..jpg" data-src="images/1-7.jpg"></div>
+        <div class="subBox"><img src="images/1-8..jpg" data-src="images/1-8.jpg"></div>
+        <div class="subBox"><img src="images/1-9..jpg" data-src="images/1-9.jpg"></div>
+        <div class="subBox"><img src="images/2-0..jpg" data-src="images/2-0.jpg"></div>
+        <div class="subBox"><img src="images/2-1..jpg" data-src="images/2-1.jpg"></div>
+        <div class="subBox"><img src="images/2-2..jpg" data-src="images/2-2.jpg"></div>
+        <div class="subBox"><img src="images/2-3..jpg" data-src="images/2-3.jpg"></div>
+        <div class="subBox"><img src="images/2-4..jpg" data-src="images/2-4.jpg"></div>
+        <div class="subBox"><img src="images/2-5..jpg" data-src="images/2-5.jpg"></div>
+        <div class="subBox"><img src="images/2-6..jpg" data-src="images/2-6.jpg"></div>
+        <div class="subBox"><img src="images/2-7..jpg" data-src="images/2-7.jpg"></div>
+        <div class="subBox"><img src="images/2-8..jpg" data-src="images/2-8.jpg"></div>
+        <div class="subBox"><img src="images/2-9..jpg" data-src="images/2-9.jpg"></div>
+        <div class="subBox"><img src="images/3-0..jpg" data-src="images/3-0.jpg"></div>
+    </div>
+    <script>
+        window.onload = function () {
+            //document.getElementsByClassName有兼容问题
+            var subBoxs = document.getElementById("box").children;
+            // 获取浏览器宽，
+            var pageWidth = window.innerWidth;
+            // 图片宽度
+            var boxWidth = subBoxs[0].offsetWidth;
+            // 当前浏览器宽度下最多可以放几张图片
+            var maxNum = Math.floor(pageWidth / boxWidth);
+            // 记录图片高度
+            var heightArray = [];
+            for (var i = 0; i < subBoxs.length; i++) {
+                // 说明是第一行内的图片
+                if (i < maxNum) {
+                    // 第一行所有盒子的高度
+                    heightArray[i] = subBoxs[i].offsetHeight;
+                } else {
+                    // 说明不是第一行,那么就查找已有的图片中高度
+                    // 最小的那一张，将下一张放到它下面。
+                    // 获取最小高度图片的值
+                    var minHeight = getMinValue(heightArray).value;
+                    // 获取最小高度图片的下标
+                    var minHeightIndex = getMinValue(heightArray).index;
+                    // 为每一个图片增加绝对定位
+                    subBoxs[i].style.position = "absolute";
+                    // 找到最小高度图片的左边距并将它赋给left定位值
+                    subBoxs[i].style.left = subBoxs[minHeightIndex].offsetLeft + "px";
+                    //将最小高度图片的的值赋给需要定位的图片的top值
+                    subBoxs[i].style.top = minHeight + "px";
+                    heightArray[minHeightIndex] = minHeight + subBoxs[i].offsetHeight;
+                }
+            }
+            // 要求找到数组中的最小值并输出最小值的位置
+            var arry = [1, 2, 3, 4, 5];
+            console.log(getMinValue(arry));
+            function getMinValue(array) {
+                // 一个包含数组最小值和最小值位置的对象
+                var obj = {};
+                obj.index = 0;//最小值位置
+                obj.value = array[obj.index];
+                // 最小值
+                // 循环查找数组最小值
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] < obj.value) {
+                        obj.value = array[i];
+                        obj.index = i;
+                    }
+                }
+                return obj;
+            }
+        }
+
+
+        // 一开始没有滚动的时候，出现在视窗中的图片也会加载
+        start();
+
+        // 当页面开始滚动的时候，遍历图片，如果图片出现在视窗中，就加载图片
+        var clock; //函数节流
+        $(window).on('scroll',function(){
+            if(clock){
+                clearTimeout(clock);
+            }
+            clock = setTimeout(function(){
+                start()
+            },200)
+        })
+
+        function start(){
+            $('.subBox img').not('[data-isLoading]').each(function () {
+                if (isShow($(this))) {
+                    loadImg($(this));
+                }
+            })
+        }
+
+
+        // 判断图片是否出现在视窗的函数
+        function isShow($node){
+            return $node.offset().top <= $(window).height()+$(window).scrollTop();
+        }
+
+        // 加载图片的函数，就是把自定义属性data-src 存储的真正的图片地址，赋值给src
+        function loadImg($img){
+            $img.attr('src', $img.attr('data-src'));
+
+            // 已经加载的图片，我给它设置一个属性，值为1，作为标识
+            // 弄这个的初衷是因为，每次滚动的时候，所有的图片都会遍历一遍，这样有点浪费，所以做个标识，滚动的时候只遍历哪些还没有加载的图片
+            $img.attr('data-isLoading',1);
+        }
+    </script>
+</body>
+</html>
